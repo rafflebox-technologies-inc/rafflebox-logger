@@ -9,34 +9,34 @@ const devFormat = combine(json(), prettyPrint());
 const prodFormat = combine(timestamp(), json());
 
 class Logger {
-  private logger: WinstonLogger;
+  public winstonLogger: WinstonLogger;
 
   constructor() {
-    this.logger = createLogger({
+    this.winstonLogger = createLogger({
       format: process.env.NODE_ENV === 'development' ? devFormat : prodFormat,
       level: config.LOGGING_LEVEL ? (config.LOGGING_LEVEL as string) : 'info',
       transports: [new transports.Console()]
     });
 
     if (process.env.NODE_ENV === 'unittest') {
-      this.logger.transports[0].silent = false;
+      this.winstonLogger.transports[0].silent = true;
     }
   }
 
   public debug(message: string, ...meta: any[]): void {
-    this.logger.debug(message, meta);
+    this.winstonLogger.debug(message, meta);
   }
 
   public info(message: string, ...meta: any[]): void {
-    this.logger.info(message, meta);
+    this.winstonLogger.info(message, meta);
   }
 
   public error(message: string, ...meta: any[]): void {
-    this.logger.error(message, meta);
+    this.winstonLogger.error(message, meta);
   }
 
   public alert(message: string, ...meta: any[]): void {
-    this.logger.error(`ALERT: ${message}`, meta); // triggers Datadog alert
+    this.winstonLogger.error(`ALERT: ${message}`, meta); // triggers Datadog alert
   }
 }
 
