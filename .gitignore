@@ -1,0 +1,15 @@
+build
+coverage
+node_modules
+
+**/config.local.*
+*.log
+
+.vscode
+
+.env.local
+config.local.*
+
+.DS_Store
+
+.idea

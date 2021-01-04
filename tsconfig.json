@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "incremental": true,
+    "strictPropertyInitialization": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "target": "es6",
+    "noImplicitAny": true,
+    "moduleResolution": "node",
+    "inlineSourceMap": true,
+    // "sourceMap": true,
+    "outDir": "build",
+    "baseUrl": ".",
+    "declaration": true,
+    "paths": {
+      "*": ["node_modules/*"]
+    }
+  },
+  "include": ["src/**/*.ts"]
+}
