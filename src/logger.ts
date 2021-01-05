@@ -27,6 +27,10 @@ class Logger {
     this.winstonLogger.debug(message, meta);
   }
 
+  public warn(message: string, ...meta: any[]): void {
+    this.winstonLogger.warn(message, meta);
+  }
+
   public info(message: string, ...meta: any[]): void {
     this.winstonLogger.info(message, meta);
   }
