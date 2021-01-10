@@ -1,0 +1,9 @@
+{
+  "color": true,
+  "exit": true,
+  // use a regular js file to boot to db migration file
+  "spec": ["test/**/*.spec.ts"],
+  "recursive": true,
+  "require": ["ts-node/register", "source-map-support/register"],
+  "timeout": 6000
+}
