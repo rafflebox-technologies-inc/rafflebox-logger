@@ -2,11 +2,13 @@
 import { transports, format, createLogger, Logger as WinstonLogger } from 'winston';
 import config from 'config-dug';
 
+import redactor from './redactor';
+
 const { combine, prettyPrint, timestamp, json } = format;
 
-const devFormat = combine(json(), prettyPrint());
+const devFormat = combine(redactor(), json(), prettyPrint());
 
-const prodFormat = combine(timestamp(), json());
+const prodFormat = combine(redactor(), timestamp(), json());
 
 class Logger {
   public winstonLogger: WinstonLogger;
