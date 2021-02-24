@@ -20,7 +20,7 @@ class Logger {
       transports: [new transports.Console()]
     });
 
-    if (process.env.NODE_ENV === 'unittest') {
+    if (config.LOGGING_SILENT) {
       this.winstonLogger.transports[0].silent = true;
     }
   }
