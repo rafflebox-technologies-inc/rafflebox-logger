@@ -1,12 +1,30 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { transports, format, createLogger, Logger as WinstonLogger } from 'winston';
 import config from 'config-dug';
+import chalk from 'chalk';
 
 import redactor from './redactor';
 
-const { combine, prettyPrint, timestamp, json } = format;
+const { combine, timestamp, json } = format;
 
-const devFormat = combine(redactor(), json(), prettyPrint());
+const devFormat = combine(
+  redactor(),
+  format.printf(i => {
+    const logMessage = `${i.message}`;
+
+    if (i.level === 'info') {
+      return chalk.cyan(logMessage);
+    } else if (i.level === 'error') {
+      return chalk.red(logMessage);
+    } else if (i.level === 'warn') {
+      return chalk.yellow(logMessage);
+    } else if (i.level === 'debug') {
+      return chalk.magenta(logMessage);
+    } else {
+      return logMessage;
+    }
+  })
+);
 
 const prodFormat = combine(redactor(), timestamp(), json());
 
