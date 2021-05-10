@@ -7,7 +7,7 @@ on:
 
 jobs:
   publish:
-    name: build, test, publish
+    name: publish
     env:
       NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
     runs-on: ubuntu-latest

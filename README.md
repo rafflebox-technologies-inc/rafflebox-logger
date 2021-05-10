@@ -8,6 +8,17 @@ Standard JSON logger for Node services, wraps the Winston library.
 
 1. `yarn add @rafflebox-technologies-inc/rafflebox-logger`
 
+## Usage
+
+To change the logging level set the environment variable. For example:
+
+`export LOGGING_LEVEL=debug`
+
+By default the `NODE_ENV` will output `json` log format if the environment is `test` or `production`. For `development` it will output `pretty` format.
+If you want to output `pretty` format you can set the following environment variables:
+
+`export LOGGING_FORMAT=pretty`
+
 ## Development
 
 1. Clone this repo
@@ -18,11 +29,11 @@ Standard JSON logger for Node services, wraps the Winston library.
 
 ## Testing
 
-### `yarn test`
+`yarn test`
 
 ## Building
 
-### `yarn build`
+`yarn build`
 
 If you need to clear the build cache run `yarn clean`
 

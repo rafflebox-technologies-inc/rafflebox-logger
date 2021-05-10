@@ -27,13 +27,14 @@ const devFormat = combine(
 );
 
 const prodFormat = combine(redactor(), timestamp(), json());
+const logFormat = process.env.NODE_ENV === 'development' ? devFormat : prodFormat;
 
 class Logger {
   public winstonLogger: WinstonLogger;
 
   constructor() {
     this.winstonLogger = createLogger({
-      format: process.env.NODE_ENV === 'development' ? devFormat : prodFormat,
+      format: config.LOGGING_FORMAT === 'pretty' ? devFormat : logFormat,
       level: config.LOGGING_LEVEL ? (config.LOGGING_LEVEL as string) : 'info',
       transports: [new transports.Console()]
     });
