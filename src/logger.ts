@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { transports, format, createLogger, Logger as WinstonLogger } from 'winston';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import config from 'config-dug';
 import chalk from 'chalk';
 
