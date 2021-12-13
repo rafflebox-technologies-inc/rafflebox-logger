@@ -13,6 +13,8 @@ const extractFields = format((info) => {
       newFields.eventId = this.node;
     } else if (this.key === 'serialNumber' && this.parent?.key === 'device') {
       newFields.deviceSerialNumber = this.node;
+    } else if (this.key === 'state') {
+      newFields.province = this.node;
     }
   });
 
