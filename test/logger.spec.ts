@@ -49,6 +49,7 @@ describe('logger', () => {
         uuid: 'ee45e605-fa42-4a64-9b51-91fed9f8caae',
         email: 'bob@villa.com',
         province: 'BC',
+        state: 'AB',
       },
       device: {
         serialNumber: '123456789',
@@ -68,6 +69,7 @@ describe('logger', () => {
         expect.stringContaining('"eventId":"b21a61f6-6fff-4991-a03a-d12d04936ab5"')
       );
       expect(process.stdout.write).toHaveBeenCalledWith(expect.stringContaining('"province":"BC"'));
+      expect(process.stdout.write).toHaveBeenCalledWith(expect.stringContaining('"province":"AB"'));
     });
   });
 });
