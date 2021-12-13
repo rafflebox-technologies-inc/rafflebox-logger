@@ -18,7 +18,7 @@
     "clean": "rm -rf build",
     "build": "tsc",
     "watch": "tsc --watch",
-    "test": "jest --verbose --detectOpenHandles --config=jest.config.js",
+    "test": "jest --verbose --runInBand --detectOpenHandles --config=jest.config.js",
     "lint": "eslint \"**/*.{ts,js}\"",
     "format": "prettier --write \"**/*.{ts,js,json,md,yml}\"",
     "format:check": "prettier --debug-check \"**/*.{ts,js,json,md,yml}\""

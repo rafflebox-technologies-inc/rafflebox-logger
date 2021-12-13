@@ -5,11 +5,13 @@ import config from 'config-dug';
 import chalk from 'chalk';
 
 import redactor from './redactor';
+import extractFields from './extract-fields';
 
 const { combine, timestamp, json } = format;
 
 const devFormat = combine(
   redactor(),
+  extractFields(),
   format.printf((i) => {
     const logMessage = `${i.message}`;
 
@@ -27,28 +29,8 @@ const devFormat = combine(
   })
 );
 
-const prodFormat = combine(redactor(), timestamp(), json());
+const prodFormat = combine(redactor(), extractFields(), timestamp(), json());
 const logFormat = process.env.NODE_ENV === 'development' ? devFormat : prodFormat;
-
-const captureKeys = ['shortlink', 'email', 'userId', 'province', 'eventId'];
-
-export const extractMetaData = (fields: Record<string, any>, parentKey?: string, ...meta: any[]): void => {
-  meta.forEach((item) => {
-    if (typeof item === 'object') {
-      Object.keys(item).forEach((key) => {
-        if (captureKeys.includes(key)) {
-          fields[key] = item[key];
-        } else if (key === 'uuid' && parentKey === 'event') {
-          fields.eventId = item[key];
-        } else if (key === 'serialNumber' && parentKey === 'device') {
-          fields.deviceSerialNumber = item[key];
-        }
-
-        extractMetaData(fields, key, item[key]);
-      });
-    }
-  });
-};
 
 class Logger {
   public winstonLogger: WinstonLogger;
@@ -74,11 +56,7 @@ class Logger {
   }
 
   public info(message: string, ...meta: any[]): void {
-    const fields: Record<string, any> = {};
-
-    extractMetaData(fields, undefined, meta);
-
-    this.winstonLogger.info(message, fields, meta);
+    this.winstonLogger.info(message, meta);
   }
 
   public error(message: string, ...meta: any[]): void {

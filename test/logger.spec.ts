@@ -1,4 +1,4 @@
-import Logger, { extractMetaData } from '../src/logger';
+import Logger from '../src/logger';
 
 const logger = new Logger();
 
@@ -6,17 +6,14 @@ const silent = logger.winstonLogger.transports[0].silent;
 
 describe('logger', () => {
   beforeEach(() => {
+    jest.spyOn(process.stdout, 'write');
+
     logger.winstonLogger.transports[0].silent = false;
   });
 
   afterEach(() => {
     jest.restoreAllMocks();
     logger.winstonLogger.transports[0].silent = silent;
-  });
-
-  beforeEach(() => {
-    jest.spyOn(process.stdout, 'write');
-    logger.winstonLogger.transports[0].silent = false;
   });
 
   describe('redactor', () => {
@@ -62,30 +59,15 @@ describe('logger', () => {
       },
     };
 
-    it('should extract data', () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const fields: any = {};
-
-      extractMetaData(fields, undefined, data);
-
-      expect(fields.email).toEqual('bob@villa.com');
-      expect(fields.province).toEqual('BC');
-      expect(fields.deviceSerialNumber).toEqual('123456789');
-      expect(fields.eventId).toEqual('b21a61f6-6fff-4991-a03a-d12d04936ab5');
-    });
-
     it('should log with extracted data', () => {
-      const loggerStub = jest.spyOn(logger, 'info');
-
       logger.info('hello world', data);
 
-      expect(loggerStub).not.toHaveBeenCalledWith('hello world', {
-        email: 'bob@villa.com',
-        eventId: 'b21a61f6-6fff-4991-a03a-d12d04936ab5',
-        province: 'BC',
-        deviceSerialNumber: '123456789',
-        data,
-      });
+      expect(process.stdout.write).toHaveBeenCalledWith(expect.stringContaining('"deviceSerialNumber":"123456789"'));
+      expect(process.stdout.write).toHaveBeenCalledWith(expect.stringContaining('"email":"bob@villa.com"'));
+      expect(process.stdout.write).toHaveBeenCalledWith(
+        expect.stringContaining('"eventId":"b21a61f6-6fff-4991-a03a-d12d04936ab5"')
+      );
+      expect(process.stdout.write).toHaveBeenCalledWith(expect.stringContaining('"province":"BC"'));
     });
   });
 });
