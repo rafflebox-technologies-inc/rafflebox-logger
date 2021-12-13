@@ -10,7 +10,7 @@ const { combine, timestamp, json } = format;
 
 const devFormat = combine(
   redactor(),
-  format.printf(i => {
+  format.printf((i) => {
     const logMessage = `${i.message}`;
 
     if (i.level === 'info') {
@@ -30,6 +30,26 @@ const devFormat = combine(
 const prodFormat = combine(redactor(), timestamp(), json());
 const logFormat = process.env.NODE_ENV === 'development' ? devFormat : prodFormat;
 
+const captureKeys = ['shortlink', 'email', 'userId', 'province', 'eventId'];
+
+export const extractMetaData = (fields: Record<string, any>, parentKey?: string, ...meta: any[]): void => {
+  meta.forEach((item) => {
+    if (typeof item === 'object') {
+      Object.keys(item).forEach((key) => {
+        if (captureKeys.includes(key)) {
+          fields[key] = item[key];
+        } else if (key === 'uuid' && parentKey === 'event') {
+          fields.eventId = item[key];
+        } else if (key === 'serialNumber' && parentKey === 'device') {
+          fields.deviceSerialNumber = item[key];
+        }
+
+        extractMetaData(fields, key, item[key]);
+      });
+    }
+  });
+};
+
 class Logger {
   public winstonLogger: WinstonLogger;
 
@@ -37,7 +57,7 @@ class Logger {
     this.winstonLogger = createLogger({
       format: config.LOGGING_FORMAT === 'pretty' ? devFormat : logFormat,
       level: config.LOGGING_LEVEL ? (config.LOGGING_LEVEL as string) : 'info',
-      transports: [new transports.Console()]
+      transports: [new transports.Console()],
     });
 
     if (config.LOGGING_SILENT) {
@@ -54,7 +74,11 @@ class Logger {
   }
 
   public info(message: string, ...meta: any[]): void {
-    this.winstonLogger.info(message, meta);
+    const fields: Record<string, any> = {};
+
+    extractMetaData(fields, undefined, meta);
+
+    this.winstonLogger.info(message, fields, meta);
   }
 
   public error(message: string, ...meta: any[]): void {
