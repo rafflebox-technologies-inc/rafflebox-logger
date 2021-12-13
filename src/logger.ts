@@ -5,12 +5,14 @@ import config from 'config-dug';
 import chalk from 'chalk';
 
 import redactor from './redactor';
+import extractFields from './extract-fields';
 
 const { combine, timestamp, json } = format;
 
 const devFormat = combine(
   redactor(),
-  format.printf(i => {
+  extractFields(),
+  format.printf((i) => {
     const logMessage = `${i.message}`;
 
     if (i.level === 'info') {
@@ -27,7 +29,7 @@ const devFormat = combine(
   })
 );
 
-const prodFormat = combine(redactor(), timestamp(), json());
+const prodFormat = combine(redactor(), extractFields(), timestamp(), json());
 const logFormat = process.env.NODE_ENV === 'development' ? devFormat : prodFormat;
 
 class Logger {
@@ -37,7 +39,7 @@ class Logger {
     this.winstonLogger = createLogger({
       format: config.LOGGING_FORMAT === 'pretty' ? devFormat : logFormat,
       level: config.LOGGING_LEVEL ? (config.LOGGING_LEVEL as string) : 'info',
-      transports: [new transports.Console()]
+      transports: [new transports.Console()],
     });
 
     if (config.LOGGING_SILENT) {
