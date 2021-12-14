@@ -5,10 +5,11 @@ const keysToRedact = [
   'client_secret',
   'newPassword',
   'currentPassword',
-  'description',
-  'blurb',
   'stripeSecretKey',
   'password',
+  'description',
+  'blurb',
+  'rules',
 ];
 
 const redact = format((info) => {
