@@ -3,8 +3,6 @@ import traverse from 'traverse';
 
 const captureKeys = ['email', 'province', 'eventId'];
 
-const commitHash = process.env.COMMIT_HASH;
-
 const extractFields = format((info) => {
   const newFields: Record<string, any> = {};
 
@@ -30,7 +28,6 @@ const extractFields = format((info) => {
   const data = { ...result[0], ...newFields };
 
   result[0] = data;
-  result[0].commit = commitHash;
 
   return result;
 });
