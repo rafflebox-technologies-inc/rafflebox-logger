@@ -1,7 +1,16 @@
 import { format } from 'winston';
 import traverse from 'traverse';
 
-const keysToRedact = ['client_secret', 'newPassword', 'currentPassword'];
+const keysToRedact = [
+  'client_secret',
+  'newPassword',
+  'currentPassword',
+  'stripeSecretKey',
+  'password',
+  'description',
+  'blurb',
+  'rules',
+];
 
 const redact = format((info) => {
   const result = traverse(info).map(function redactor() {
