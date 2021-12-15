@@ -49,15 +49,15 @@ describe('logger', () => {
         uuid: 'ee45e605-fa42-4a64-9b51-91fed9f8caae',
         email: 'bob@villa.com',
         province: 'BC',
-        state: 'AB',
+        state: 'AB'
       },
       device: {
-        serialNumber: '123456789',
+        serialNumber: '123456789'
       },
       event: {
         id: 1,
-        uuid: 'b21a61f6-6fff-4991-a03a-d12d04936ab5',
-      },
+        uuid: 'b21a61f6-6fff-4991-a03a-d12d04936ab5'
+      }
     };
 
     it('should log with extracted data', () => {
