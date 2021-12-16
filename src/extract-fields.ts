@@ -3,14 +3,18 @@ import traverse from 'traverse';
 
 const captureKeys = ['email', 'province', 'eventId'];
 
+/**
+ * For that email thing. I think we should grab the email from the first node.
+ * And if we find another instance and it's already set then ignore it.
+ */
 const extractFields = format(info => {
   const newFields: Record<string, any> = {};
 
   const result = traverse(info).map(function extract() {
     if (this.key && captureKeys.includes(this.key)) {
-      if (this.parent?.key === 'order' && this.key === 'email') {
-        newFields[this.key] = this.node;
-      } else if (this.key !== 'email') {
+      if (this.key === 'email' && newFields.email !== undefined) {
+        return;
+      } else {
         newFields[this.key] = this.node;
       }
     } else if (this.key === 'uuid' && this.parent?.key === 'event') {
@@ -30,6 +34,9 @@ const extractFields = format(info => {
   result[splatSym] = info[(splatSym as unknown) as string];
 
   const data = { ...result[0], ...newFields };
+
+  /* eslint-disable no-console */
+  console.log('New Fields', newFields);
 
   result[0] = data;
 
