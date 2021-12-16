@@ -4,7 +4,7 @@ import traverse from 'traverse';
 const captureKeys = ['email', 'province', 'eventId'];
 
 /**
- * For that email thing. I think we should grab the email from the first node.
+ * For email, we grab the email from the first node/object.
  * And if we find another instance and it's already set then ignore it.
  */
 const extractFields = format(info => {
@@ -34,9 +34,6 @@ const extractFields = format(info => {
   result[splatSym] = info[(splatSym as unknown) as string];
 
   const data = { ...result[0], ...newFields };
-
-  /* eslint-disable no-console */
-  console.log('New Fields', newFields);
 
   result[0] = data;
 
