@@ -43,39 +43,242 @@ describe('logger', () => {
   });
 
   describe('extractData', () => {
-    const data = {
-      order: {
-        id: 1,
-        uuid: 'ee45e605-fa42-4a64-9b51-91fed9f8caae',
-        email: 'bob@villa.com',
-        province: 'BC',
-        state: 'AB'
-      },
-      device: {
-        serialNumber: '123456789'
-      },
-      event: {
-        id: 1,
-        uuid: 'b21a61f6-6fff-4991-a03a-d12d04936ab5'
-      },
-      info: {
-        referenceId: 'pi_3K9YkpB7JcYxrNaO0soQ3vpl'
-      }
-    };
+    describe('captureKeys', () => {
+      it('postal', () => {
+        const data = {
+          postal: 'B0J1V7',
+        };
 
-    it('should log with extracted data', () => {
-      logger.info('hello world', data);
+        logger.info('hello world', data);
 
-      expect(process.stdout.write).toHaveBeenCalledWith(expect.stringContaining('"deviceSerialNumber":"123456789"'));
-      expect(process.stdout.write).toHaveBeenCalledWith(expect.stringContaining('"email":"bob@villa.com"'));
-      expect(process.stdout.write).toHaveBeenCalledWith(
-        expect.stringContaining('"eventId":"b21a61f6-6fff-4991-a03a-d12d04936ab5"')
-      );
-      expect(process.stdout.write).toHaveBeenCalledWith(expect.stringContaining('"province":"BC"'));
-      expect(process.stdout.write).toHaveBeenCalledWith(expect.stringContaining('"province":"AB"'));
-      expect(process.stdout.write).toHaveBeenCalledWith(
-        expect.stringContaining('"referenceId":"pi_3K9YkpB7JcYxrNaO0soQ3vpl"')
-      );
+        expect(process.stdout.write).toHaveBeenCalledWith(expect.stringContaining('"postal":"B0J1V7"'));
+      });
+      it('email', () => {
+        const data = {
+          email: 'jamie3@gmail.com',
+        };
+
+        logger.info('hello world', data);
+
+        expect(process.stdout.write).toHaveBeenCalledWith(expect.stringContaining('"email":"jamie3@gmail.com"'));
+      });
+
+      it('province', () => {
+        const data = {
+          province: 'AB',
+        };
+
+        logger.info('hello world', data);
+
+        expect(process.stdout.write).toHaveBeenCalledWith(expect.stringContaining('"province":"AB"'));
+      });
+
+      it('phone', () => {
+        const data = {
+          phone: '9025551234',
+        };
+
+        logger.info('hello world', data);
+
+        expect(process.stdout.write).toHaveBeenCalledWith(expect.stringContaining('"phone":"9025551234"'));
+      });
+
+      it('locale', () => {
+        const data = {
+          locale: 'en',
+        };
+
+        logger.info('hello world', data);
+
+        expect(process.stdout.write).toHaveBeenCalledWith(expect.stringContaining('"locale":"en"'));
+      });
+    });
+    describe('organization', () => {
+      it('id -> organizationNumber', () => {
+        const data = {
+          organization: {
+            id: 1,
+          },
+        };
+
+        logger.info('hello world', data);
+
+        expect(process.stdout.write).toHaveBeenCalledWith(expect.stringContaining('"organizationNumber":1'));
+      });
+
+      it('id -> organizationId', () => {
+        const data = {
+          organization: {
+            id: 'ee45e605-fa42-4a64-9b51-91fed9f8caae',
+          },
+        };
+
+        logger.info('hello world', data);
+
+        expect(process.stdout.write).toHaveBeenCalledWith(
+          expect.stringContaining('"organizationId":"ee45e605-fa42-4a64-9b51-91fed9f8caae"')
+        );
+      });
+
+      it('uuid -> organizationId', () => {
+        const data = {
+          organization: {
+            uuid: 'ee45e605-fa42-4a64-9b51-91fed9f8caae',
+          },
+        };
+
+        logger.info('hello world', data);
+
+        expect(process.stdout.write).toHaveBeenCalledWith(
+          expect.stringContaining('"organizationId":"ee45e605-fa42-4a64-9b51-91fed9f8caae"')
+        );
+      });
+    });
+
+    describe('order', () => {
+      it('id -> orderNumber', () => {
+        const data = {
+          order: {
+            id: 1,
+          },
+        };
+
+        logger.info('hello world', data);
+
+        expect(process.stdout.write).toHaveBeenCalledWith(expect.stringContaining('"orderNumber":1'));
+      });
+
+      it('id -> orderId', () => {
+        const data = {
+          order: {
+            id: 'ee45e605-fa42-4a64-9b51-91fed9f8caae',
+          },
+        };
+
+        logger.info('hello world', data);
+
+        expect(process.stdout.write).toHaveBeenCalledWith(
+          expect.stringContaining('"orderId":"ee45e605-fa42-4a64-9b51-91fed9f8caae"')
+        );
+      });
+
+      it('uuid -> orderId', () => {
+        const data = {
+          order: {
+            uuid: 'ee45e605-fa42-4a64-9b51-91fed9f8caae',
+          },
+        };
+
+        logger.info('hello world', data);
+
+        expect(process.stdout.write).toHaveBeenCalledWith(
+          expect.stringContaining('"orderId":"ee45e605-fa42-4a64-9b51-91fed9f8caae"')
+        );
+      });
+
+      it('email -> email', () => {
+        const data = {
+          order: {
+            email: 'bob@villa.com',
+          },
+        };
+
+        logger.info('hello world', data);
+
+        expect(process.stdout.write).toHaveBeenCalledWith(expect.stringContaining('"email":"bob@villa.com"'));
+      });
+
+      it('province -> province', () => {
+        const data = {
+          order: {
+            province: 'BC',
+          },
+        };
+
+        logger.info('hello world', data);
+
+        expect(process.stdout.write).toHaveBeenCalledWith(expect.stringContaining('"province":"BC"'));
+      });
+
+      it('state -> province', () => {
+        const data = {
+          order: {
+            state: 'AB',
+          },
+        };
+
+        logger.info('hello world', data);
+
+        expect(process.stdout.write).toHaveBeenCalledWith(expect.stringContaining('"province":"AB"'));
+      });
+
+      it('provinceState -> province', () => {
+        const data = {
+          order: {
+            provinceState: 'NS',
+          },
+        };
+
+        logger.info('hello world', data);
+
+        expect(process.stdout.write).toHaveBeenCalledWith(expect.stringContaining('"province":"NS"'));
+      });
+    });
+
+    describe('device', () => {
+      it('serialNumber -> deviceSerialNumber', () => {
+        const data = {
+          device: {
+            serialNumber: '123456789',
+          },
+        };
+
+        logger.info('hello world', data);
+
+        expect(process.stdout.write).toHaveBeenCalledWith(expect.stringContaining('"deviceSerialNumber":"123456789"'));
+      });
+    });
+
+    describe('event', () => {
+      it('id -> eventNumber', () => {
+        const data = {
+          event: {
+            id: 1,
+          },
+        };
+
+        logger.info('hello world', data);
+
+        expect(process.stdout.write).toHaveBeenCalledWith(expect.stringContaining('"eventNumber":1'));
+      });
+
+      it('id -> eventId', () => {
+        const data = {
+          event: {
+            id: 'b21a61f6-6fff-4991-a03a-d12d04936ab5',
+          },
+        };
+
+        logger.info('hello world', data);
+
+        expect(process.stdout.write).toHaveBeenCalledWith(
+          expect.stringContaining('"eventId":"b21a61f6-6fff-4991-a03a-d12d04936ab5"')
+        );
+      });
+
+      it('uuid -> eventId', () => {
+        const data = {
+          event: {
+            uuid: 'b21a61f6-6fff-4991-a03a-d12d04936ab5',
+          },
+        };
+
+        logger.info('hello world', data);
+
+        expect(process.stdout.write).toHaveBeenCalledWith(
+          expect.stringContaining('"eventId":"b21a61f6-6fff-4991-a03a-d12d04936ab5"')
+        );
+      });
     });
   });
 });
