@@ -1,7 +1,7 @@
 import { format } from 'winston';
 import traverse from 'traverse';
 
-const captureKeys = ['email', 'province', 'eventId'];
+const captureKeys = ['email', 'province', 'eventId', 'referenceId'];
 
 /**
  * For email, we grab the email from the first node/object.

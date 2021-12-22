@@ -57,6 +57,9 @@ describe('logger', () => {
       event: {
         id: 1,
         uuid: 'b21a61f6-6fff-4991-a03a-d12d04936ab5'
+      },
+      info: {
+        referenceId: 'pi_3K9YkpB7JcYxrNaO0soQ3vpl'
       }
     };
 
@@ -70,6 +73,9 @@ describe('logger', () => {
       );
       expect(process.stdout.write).toHaveBeenCalledWith(expect.stringContaining('"province":"BC"'));
       expect(process.stdout.write).toHaveBeenCalledWith(expect.stringContaining('"province":"AB"'));
+      expect(process.stdout.write).toHaveBeenCalledWith(
+        expect.stringContaining('"referenceId":"pi_3K9YkpB7JcYxrNaO0soQ3vpl"')
+      );
     });
   });
 });
