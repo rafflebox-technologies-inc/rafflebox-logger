@@ -1,6 +1,6 @@
 {
   "name": "@rafflebox-technologies-inc/rafflebox-logger",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "description": "Standard JSON logger for Node services",
   "author": "Rafflebox Engineering",
   "main": "index.js",
