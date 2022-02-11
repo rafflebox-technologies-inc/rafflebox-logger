@@ -52,6 +52,8 @@ const extractFields = format((info) => {
         newFields.orderNumber = this.node;
       } else if ((this.key === 'id' || this.key === 'uuid') && typeof this.node === 'string') {
         newFields.orderId = this.node;
+      } else if (this.key === 'referenceId') {
+        newFields.orderReferenceId = this.node;
       }
 
       return;

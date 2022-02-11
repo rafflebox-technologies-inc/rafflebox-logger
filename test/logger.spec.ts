@@ -223,6 +223,18 @@ describe('logger', () => {
 
         expect(process.stdout.write).toHaveBeenCalledWith(expect.stringContaining('"province":"NS"'));
       });
+
+      it('referenceId -> orderReferenceId', () => {
+        const data = {
+          order: {
+            referenceId: 'abc',
+          },
+        };
+
+        logger.info('hello world', data);
+
+        expect(process.stdout.write).toHaveBeenCalledWith(expect.stringContaining('"orderReferenceId":"abc"'));
+      });
     });
 
     describe('device', () => {
