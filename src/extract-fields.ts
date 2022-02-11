@@ -66,8 +66,6 @@ const extractFields = format((info) => {
       } else if ((this.key === 'id' || this.key === 'uuid') && typeof this.node === 'string') {
         newFields.organizationId = this.node;
       }
-
-      return;
     }
   });
 
