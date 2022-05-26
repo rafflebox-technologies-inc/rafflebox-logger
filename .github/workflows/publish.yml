@@ -57,9 +57,9 @@ jobs:
 
       - name: Slack
         run: |
-          curl -X POST -H 'Content-type: application/json' --data '{"text":"Published `rafflebox-logger` to Github - <https://github.com/rafflebox-technologies-inc/rafflebox-logger/commit/${{ steps.vars.outputs.sha_short }}|${{ steps.vars.outputs.sha_short }}>"}' https://hooks.slack.com/services/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
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"Published `rafflebox-logger` to Github - <https://github.com/rafflebox-technologies-inc/rafflebox-logger/commit/${{ steps.vars.outputs.sha_short }}|${{ steps.vars.outputs.sha_short }}>"}' https://hooks.slack.com/services/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
 
       - name: Failed
         if: ${{ failure() }}
         run: |
-          curl -X POST -H 'Content-type: application/json' --data '{"text":"'"$GITHUB_WORKFLOW"' Failed for `${{ github.event.repository.name }}` - <'"$GITHUB_SERVER_URL"'/'"$GITHUB_REPOSITORY"'/actions/runs/'"$GITHUB_RUN_ID"'|View Run>"}' https://hooks.slack.com/services/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
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"'"$GITHUB_WORKFLOW"' Failed for `${{ github.event.repository.name }}` - <'"$GITHUB_SERVER_URL"'/'"$GITHUB_REPOSITORY"'/actions/runs/'"$GITHUB_RUN_ID"'|View Run>"}' https://hooks.slack.com/services/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
