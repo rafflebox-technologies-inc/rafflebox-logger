@@ -36,9 +36,3 @@ If you want to output `pretty` format you can set the following environment vari
 `yarn build`
 
 If you need to clear the build cache run `yarn clean`
-
-## Publishing
-
-1. Generate a Github PAT with access to package write + read + repo functions.
-2. `./publish.sh`
-3. Enter your Github PAT instead of the password when prompted.
