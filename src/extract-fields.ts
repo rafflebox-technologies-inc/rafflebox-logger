@@ -2,13 +2,13 @@ import { format } from 'winston';
 import traverse from 'traverse';
 
 // 1:1 mapping
-const captureKeys = ['email', 'province', 'client', 'locale', 'phone'];
+const captureKeys = ['email', 'province', 'client', 'rb-client', 'locale', 'phone'];
 
 /**
  * For email, we grab the email from the first node/object.
  * And if we find another instance and it's already set then ignore it.
  */
-const extractFields = format((info) => {
+const extractFields = format(info => {
   const newFields: Record<string, any> = {};
 
   const result = traverse(info).map(function extract() {
@@ -73,8 +73,8 @@ const extractFields = format((info) => {
   const levelSym = Symbol.for('level');
   const splatSym = Symbol.for('splat');
 
-  result[levelSym] = info[levelSym as unknown as string];
-  result[splatSym] = info[splatSym as unknown as string];
+  result[levelSym] = info[(levelSym as unknown) as string];
+  result[splatSym] = info[(splatSym as unknown) as string];
 
   const data = { ...result[0], ...newFields };
 
