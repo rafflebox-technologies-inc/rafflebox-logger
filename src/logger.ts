@@ -1,7 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { transports, format, createLogger, Logger as WinstonLogger } from 'winston';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import config from 'config-dug';
 import chalk from 'chalk';
 
 import redactor from './redactor';
@@ -12,7 +9,7 @@ const { combine, timestamp, json } = format;
 const devFormat = combine(
   redactor(),
   extractFields(),
-  format.printf((i) => {
+  format.printf(i => {
     const logMessage = `${i.message}`;
 
     if (i.level === 'info') {
@@ -37,12 +34,12 @@ class Logger {
 
   constructor() {
     this.winstonLogger = createLogger({
-      format: config.LOGGING_FORMAT === 'pretty' ? devFormat : logFormat,
-      level: config.LOGGING_LEVEL ? (config.LOGGING_LEVEL as string) : 'info',
-      transports: [new transports.Console()],
+      format: process.env.LOGGING_FORMAT === 'pretty' ? devFormat : logFormat,
+      level: process.env.LOGGING_LEVEL ? (config.LOGGING_LEVEL as string) : 'info',
+      transports: [new transports.Console()]
     });
 
-    if (config.LOGGING_SILENT) {
+    if (process.env.LOGGING_SILENT) {
       this.winstonLogger.transports[0].silent = true;
     }
   }
