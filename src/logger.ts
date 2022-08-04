@@ -35,7 +35,7 @@ class Logger {
   constructor() {
     this.winstonLogger = createLogger({
       format: process.env.LOGGING_FORMAT === 'pretty' ? devFormat : logFormat,
-      level: process.env.LOGGING_LEVEL ? (config.LOGGING_LEVEL as string) : 'info',
+      level: process.env.LOGGING_LEVEL ? (process.env.LOGGING_LEVEL as string) : 'info',
       transports: [new transports.Console()]
     });
 
