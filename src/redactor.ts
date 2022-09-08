@@ -10,7 +10,7 @@ const keysToRedact = [
   'description',
   'blurb',
   'rules',
-  'authorization'
+  'Authorization'
 ];
 
 const redact = format(info => {

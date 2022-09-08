@@ -23,10 +23,13 @@ describe('logger', () => {
       expect(process.stdout.write).toHaveBeenCalledWith(expect.stringContaining('[REDACTED]'));
     });
 
-    it('should redact authorization', () => {
-      logger.error('Testing redaction', {
-        header: { authorization: 'This has authorization data but we want to change this to [REDACTED]' }
+    it('should redact Authorization', () => {
+      logger.info('Testing redaction', {
+        obj: {
+          Authorization: 'Authorization Data'
+        }
       });
+      expect(process.stdout.write).not.toHaveBeenCalledWith(expect.stringContaining('Authorization Data'));
       expect(process.stdout.write).toHaveBeenCalledWith(expect.stringContaining('[REDACTED]'));
     });
 
