@@ -1,7 +1,7 @@
 import { format } from 'winston';
 import traverse from 'traverse';
 
-const keysToRedact = [
+let keysToRedact = [
   'client_secret',
   'newPassword',
   'currentPassword',
@@ -13,9 +13,12 @@ const keysToRedact = [
   'Authorization'
 ];
 
+// makes it case insensitive
+keysToRedact = keysToRedact.map(key => key.toLowerCase());
+
 const redact = format(info => {
   const result = traverse(info).map(function redactor() {
-    if (this.key && keysToRedact.includes(this.key)) {
+    if (this.key && keysToRedact.includes(this.key.toLowerCase())) {
       this.update('[REDACTED]');
     }
   });

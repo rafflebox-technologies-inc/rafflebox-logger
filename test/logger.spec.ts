@@ -33,6 +33,16 @@ describe('logger', () => {
       expect(process.stdout.write).toHaveBeenCalledWith(expect.stringContaining('[REDACTED]'));
     });
 
+    it('should be able to redact regardless of case sensitivity', () => {
+      logger.info('Testing redaction', {
+        obj: {
+          aUtHoRiZaTiOn: 'Authorization Data'
+        }
+      });
+      expect(process.stdout.write).not.toHaveBeenCalledWith(expect.stringContaining('Authorization Data'));
+      expect(process.stdout.write).toHaveBeenCalledWith(expect.stringContaining('[REDACTED]'));
+    });
+
     it('should be able to redact deeply nested keys', () => {
       // eslint-disable-next-line @typescript-eslint/camelcase
       logger.info('Testing redaction', { obj: { this: { is: { deep: { client_secret: 'hello' } } } } });
