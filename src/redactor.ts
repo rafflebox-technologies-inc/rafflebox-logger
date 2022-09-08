@@ -1,20 +1,18 @@
 import { format } from 'winston';
 import traverse from 'traverse';
 
-let keysToRedact = [
+// any values you enter here should be lowercase for it to work - it will redact regardless of case sensitivity
+const keysToRedact = [
   'client_secret',
-  'newPassword',
-  'currentPassword',
-  'stripeSecretKey',
+  'newpassword',
+  'currentpassword',
+  'stripesecretkey',
   'password',
   'description',
   'blurb',
   'rules',
-  'Authorization'
+  'authorization'
 ];
-
-// makes it case insensitive
-keysToRedact = keysToRedact.map(key => key.toLowerCase());
 
 const redact = format(info => {
   const result = traverse(info).map(function redactor() {
