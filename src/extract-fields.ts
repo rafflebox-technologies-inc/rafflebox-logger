@@ -1,8 +1,7 @@
 import { format } from 'winston';
 import traverse from 'traverse';
 
-// 1:1 mapping
-const captureKeys = ['email', 'province', 'client', 'rb-client', 'locale', 'phone'];
+const captureKeys = ['email', 'province', 'client', 'rb-client', 'locale', 'phone', 'eventId'];
 
 /**
  * For email, we grab the email from the first node/object.
@@ -22,7 +21,9 @@ const extractFields = format(info => {
       return;
     }
 
-    if (this.key === 'serialNumber' || this.key === 'deviceSerialNumber') {
+    if (this.key === 'uuid' && this.parent?.key === 'event') {
+      newFields.eventId = this.node;
+    } else if (this.key === 'serialNumber' || this.key === 'deviceSerialNumber') {
       newFields.deviceSerialNumber = this.node;
 
       return;
