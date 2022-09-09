@@ -57,11 +57,5 @@
     "source-map-support": "~0.5.19",
     "ts-jest": "~27.1.0",
     "typescript": "~4.5.2"
-  },
-  "bugs": {
-    "url": "https://github.com/rafflebox-technologies-inc/rafflebox-logger/issues"
-  },
-  "directories": {
-    "test": "test"
   }
 }
