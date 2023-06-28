@@ -38,7 +38,7 @@ describe('request-logger', () => {
     req.method = 'Not method';
 
     requestLogger({
-      contextExtractor: () => ({}),
+      extractContext: () => ({}),
       logger,
       loggingExemptRoutePatterns: [],
       logHTTPMethods: ['POST'],
@@ -52,7 +52,7 @@ describe('request-logger', () => {
     req.originalUrl = '/testing-stuff';
 
     requestLogger({
-      contextExtractor: () => ({}),
+      extractContext: () => ({}),
       logger,
       loggingExemptRoutePatterns: ['/testing-stuff'],
       logHTTPMethods: ['POST'],
@@ -70,7 +70,7 @@ describe('request-logger', () => {
     req.headers = { 'rb-client': 'TEST', Authorization: 'My token' };
 
     requestLogger({
-      contextExtractor: () => ({}),
+      extractContext: () => ({}),
       logger,
       loggingExemptRoutePatterns: [],
       logHTTPMethods: ['POST'],
@@ -94,7 +94,7 @@ describe('request-logger', () => {
 
   it('should include the results of the contextExtractor in the caller info', () => {
     requestLogger({
-      contextExtractor: () => ({ testing: 'test' }),
+      extractContext: () => ({ testing: 'test' }),
       logger,
       loggingExemptRoutePatterns: [],
       logHTTPMethods: ['POST'],
