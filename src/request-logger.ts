@@ -1,6 +1,6 @@
 import Logger from './logger';
 
-// These interfaces are a partial definition of express. This is to avoid a dependency on express.
+// These interfaces are a partial definitions of express. This is to avoid a dependency on express.
 export interface Request {
   method: string;
   body: unknown;
@@ -47,12 +47,12 @@ const redact = (redactFields: string[], input?: unknown): unknown | undefined =>
 
 export const requestLogger = <Req extends Request, Res extends Response>(config: {
   logger: Logger;
-  contextExtractor: (req: Req, res: Res) => Record<string, unknown>;
+  extractContext: (req: Req, res: Res) => Record<string, unknown>;
   redactFields: string[];
   logHTTPMethods: string[];
   loggingExemptRoutePatterns: string[];
 }): ((req: Req, res: Res, next: NextFunction) => void) => {
-  const { logger, redactFields, logHTTPMethods, loggingExemptRoutePatterns, contextExtractor } = config;
+  const { logger, redactFields, logHTTPMethods, loggingExemptRoutePatterns, extractContext } = config;
 
   return (req: Req, res: Res, next: NextFunction): void => {
     try {
@@ -60,7 +60,7 @@ export const requestLogger = <Req extends Request, Res extends Response>(config:
         logHTTPMethods.includes(req.method) &&
         !loggingExemptRoutePatterns.find(pattern => req.originalUrl?.includes(pattern))
       ) {
-        const context = contextExtractor(req, res);
+        const context = extractContext(req, res);
 
         logger.info(`request-logger - ${req.method} ${req.originalUrl}`, {
           body: redact(redactFields, req.body),
