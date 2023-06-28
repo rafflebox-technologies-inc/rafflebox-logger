@@ -19,12 +19,12 @@ export interface Response {
 type NextFunction = (err?: unknown) => void;
 
 const getIpAddress = (req: Request): string | undefined => {
-  const ipAddress = req.get('x-forwarded-for') || req.socket.remoteAddress;
+  const ipAddress = req.get('x-forwarded-for') ?? req.socket.remoteAddress;
 
   return ipAddress?.replace('::ffff:', '');
 };
 
-const redact = (redactFields: string[], input?: unknown): unknown | undefined => {
+const redact = (redactFields: string[], input?: unknown): unknown => {
   if (!input) {
     return input;
   }
