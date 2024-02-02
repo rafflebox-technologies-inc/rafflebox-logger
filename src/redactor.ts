@@ -11,12 +11,13 @@ const keysToRedact = [
   'description',
   'blurb',
   'rules',
-  'authorization'
+  'authorization',
 ];
 
-const redact = format(info => {
+const redact = format((info) => {
   const result = traverse(info).map(function redactor() {
-    if (this.key && keysToRedact.includes(this.key.toLowerCase())) {
+    // the toString() is due to the fact that the key can be a symbol even though typing right now assumes it is a string
+    if (this.key && keysToRedact.includes(this.key.toString().toLowerCase())) {
       this.update('[REDACTED]');
     }
   });
@@ -25,8 +26,8 @@ const redact = format(info => {
   const levelSym = Symbol.for('level');
   const splatSym = Symbol.for('splat');
 
-  result[levelSym] = info[(levelSym as unknown) as string];
-  result[splatSym] = info[(splatSym as unknown) as string];
+  result[levelSym] = info[levelSym as unknown as string];
+  result[splatSym] = info[splatSym as unknown as string];
 
   return result;
 });

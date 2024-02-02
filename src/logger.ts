@@ -9,7 +9,7 @@ const { combine, timestamp, json } = format;
 const devFormat = combine(
   redactor(),
   extractFields(),
-  format.printf(i => {
+  format.printf((i) => {
     const logMessage = `${i.message}`;
 
     if (i.level === 'info') {
@@ -23,7 +23,7 @@ const devFormat = combine(
     } else {
       return logMessage;
     }
-  })
+  }),
 );
 
 const prodFormat = combine(redactor(), extractFields(), timestamp(), json());
@@ -36,7 +36,7 @@ class Logger {
     this.winstonLogger = createLogger({
       format: process.env.LOGGING_FORMAT === 'pretty' ? devFormat : logFormat,
       level: process.env.LOGGING_LEVEL ? (process.env.LOGGING_LEVEL as string) : 'info',
-      transports: [new transports.Console()]
+      transports: [new transports.Console()],
     });
 
     if (process.env.LOGGING_SILENT) {
@@ -44,23 +44,23 @@ class Logger {
     }
   }
 
-  public debug(message: string, ...meta: any[]): void {
+  public debug(message: string, ...meta: unknown[]): void {
     this.winstonLogger.debug(message, meta);
   }
 
-  public warn(message: string, ...meta: any[]): void {
+  public warn(message: string, ...meta: unknown[]): void {
     this.winstonLogger.warn(message, meta);
   }
 
-  public info(message: string, ...meta: any[]): void {
+  public info(message: string, ...meta: unknown[]): void {
     this.winstonLogger.info(message, meta);
   }
 
-  public error(message: string, ...meta: any[]): void {
+  public error(message: string, ...meta: unknown[]): void {
     this.winstonLogger.error(message, meta);
   }
 
-  public alert(message: string, ...meta: any[]): void {
+  public alert(message: string, ...meta: unknown[]): void {
     this.winstonLogger.error(`ALERT: ${message}`, meta); // triggers Datadog alert
   }
 }

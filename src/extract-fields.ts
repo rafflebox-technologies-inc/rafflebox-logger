@@ -7,8 +7,8 @@ const captureKeys = ['email', 'province', 'client', 'rb-client', 'locale', 'phon
  * For email, we grab the email from the first node/object.
  * And if we find another instance and it's already set then ignore it.
  */
-const extractFields = format(info => {
-  const newFields: Record<string, any> = {};
+const extractFields = format((info) => {
+  const newFields: Record<string, unknown> = {};
 
   const result = traverse(info).map(function extract() {
     if (this.key && captureKeys.includes(this.key)) {
@@ -74,8 +74,8 @@ const extractFields = format(info => {
   const levelSym = Symbol.for('level');
   const splatSym = Symbol.for('splat');
 
-  result[levelSym] = info[(levelSym as unknown) as string];
-  result[splatSym] = info[(splatSym as unknown) as string];
+  result[levelSym] = info[levelSym as unknown as string];
+  result[splatSym] = info[splatSym as unknown as string];
 
   const data = { ...result[0], ...newFields };
 

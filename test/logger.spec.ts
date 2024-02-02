@@ -18,7 +18,6 @@ describe('logger', () => {
 
   describe('redactor', () => {
     it('should redact client_secret', () => {
-      // eslint-disable-next-line @typescript-eslint/camelcase
       logger.info('Testing redaction', { obj: { client_secret: 'hello' } });
       expect(process.stdout.write).toHaveBeenCalledWith(expect.stringContaining('[REDACTED]'));
     });
@@ -26,8 +25,8 @@ describe('logger', () => {
     it('should redact Authorization', () => {
       logger.info('Testing redaction', {
         obj: {
-          Authorization: 'Authorization Data'
-        }
+          Authorization: 'Authorization Data',
+        },
       });
       expect(process.stdout.write).not.toHaveBeenCalledWith(expect.stringContaining('Authorization Data'));
       expect(process.stdout.write).toHaveBeenCalledWith(expect.stringContaining('[REDACTED]'));
@@ -36,15 +35,14 @@ describe('logger', () => {
     it('should be able to redact regardless of case sensitivity', () => {
       logger.info('Testing redaction', {
         obj: {
-          aUtHoRiZaTiOn: 'Authorization Data'
-        }
+          aUtHoRiZaTiOn: 'Authorization Data',
+        },
       });
       expect(process.stdout.write).not.toHaveBeenCalledWith(expect.stringContaining('Authorization Data'));
       expect(process.stdout.write).toHaveBeenCalledWith(expect.stringContaining('[REDACTED]'));
     });
 
     it('should be able to redact deeply nested keys', () => {
-      // eslint-disable-next-line @typescript-eslint/camelcase
       logger.info('Testing redaction', { obj: { this: { is: { deep: { client_secret: 'hello' } } } } });
       expect(process.stdout.write).toHaveBeenCalledWith(expect.stringContaining('[REDACTED]'));
     });
@@ -66,7 +64,7 @@ describe('logger', () => {
     describe('captureKeys', () => {
       it('postal', () => {
         const data = {
-          postal: 'B0J1V7'
+          postal: 'B0J1V7',
         };
 
         logger.info('hello world', data);
@@ -75,7 +73,7 @@ describe('logger', () => {
       });
       it('email', () => {
         const data = {
-          email: 'jamie3@gmail.com'
+          email: 'jamie3@gmail.com',
         };
 
         logger.info('hello world', data);
@@ -85,7 +83,7 @@ describe('logger', () => {
 
       it('province', () => {
         const data = {
-          province: 'AB'
+          province: 'AB',
         };
 
         logger.info('hello world', data);
@@ -95,7 +93,7 @@ describe('logger', () => {
 
       it('phone', () => {
         const data = {
-          phone: '9025551234'
+          phone: '9025551234',
         };
 
         logger.info('hello world', data);
@@ -105,7 +103,7 @@ describe('logger', () => {
 
       it('locale', () => {
         const data = {
-          locale: 'en'
+          locale: 'en',
         };
 
         logger.info('hello world', data);
@@ -117,8 +115,8 @@ describe('logger', () => {
       it('id -> organizationNumber', () => {
         const data = {
           organization: {
-            id: 1
-          }
+            id: 1,
+          },
         };
 
         logger.info('hello world', data);
@@ -129,28 +127,28 @@ describe('logger', () => {
       it('id -> organizationId', () => {
         const data = {
           organization: {
-            id: 'ee45e605-fa42-4a64-9b51-91fed9f8caae'
-          }
+            id: 'ee45e605-fa42-4a64-9b51-91fed9f8caae',
+          },
         };
 
         logger.info('hello world', data);
 
         expect(process.stdout.write).toHaveBeenCalledWith(
-          expect.stringContaining('"organizationId":"ee45e605-fa42-4a64-9b51-91fed9f8caae"')
+          expect.stringContaining('"organizationId":"ee45e605-fa42-4a64-9b51-91fed9f8caae"'),
         );
       });
 
       it('uuid -> organizationId', () => {
         const data = {
           organization: {
-            uuid: 'ee45e605-fa42-4a64-9b51-91fed9f8caae'
-          }
+            uuid: 'ee45e605-fa42-4a64-9b51-91fed9f8caae',
+          },
         };
 
         logger.info('hello world', data);
 
         expect(process.stdout.write).toHaveBeenCalledWith(
-          expect.stringContaining('"organizationId":"ee45e605-fa42-4a64-9b51-91fed9f8caae"')
+          expect.stringContaining('"organizationId":"ee45e605-fa42-4a64-9b51-91fed9f8caae"'),
         );
       });
     });
@@ -159,8 +157,8 @@ describe('logger', () => {
       it('id -> orderNumber', () => {
         const data = {
           order: {
-            id: 1
-          }
+            id: 1,
+          },
         };
 
         logger.info('hello world', data);
@@ -171,36 +169,36 @@ describe('logger', () => {
       it('id -> orderId', () => {
         const data = {
           order: {
-            id: 'ee45e605-fa42-4a64-9b51-91fed9f8caae'
-          }
+            id: 'ee45e605-fa42-4a64-9b51-91fed9f8caae',
+          },
         };
 
         logger.info('hello world', data);
 
         expect(process.stdout.write).toHaveBeenCalledWith(
-          expect.stringContaining('"orderId":"ee45e605-fa42-4a64-9b51-91fed9f8caae"')
+          expect.stringContaining('"orderId":"ee45e605-fa42-4a64-9b51-91fed9f8caae"'),
         );
       });
 
       it('uuid -> orderId', () => {
         const data = {
           order: {
-            uuid: 'ee45e605-fa42-4a64-9b51-91fed9f8caae'
-          }
+            uuid: 'ee45e605-fa42-4a64-9b51-91fed9f8caae',
+          },
         };
 
         logger.info('hello world', data);
 
         expect(process.stdout.write).toHaveBeenCalledWith(
-          expect.stringContaining('"orderId":"ee45e605-fa42-4a64-9b51-91fed9f8caae"')
+          expect.stringContaining('"orderId":"ee45e605-fa42-4a64-9b51-91fed9f8caae"'),
         );
       });
 
       it('email -> email', () => {
         const data = {
           order: {
-            email: 'bob@villa.com'
-          }
+            email: 'bob@villa.com',
+          },
         };
 
         logger.info('hello world', data);
@@ -211,8 +209,8 @@ describe('logger', () => {
       it('province -> province', () => {
         const data = {
           order: {
-            province: 'BC'
-          }
+            province: 'BC',
+          },
         };
 
         logger.info('hello world', data);
@@ -223,8 +221,8 @@ describe('logger', () => {
       it('state -> province', () => {
         const data = {
           order: {
-            state: 'AB'
-          }
+            state: 'AB',
+          },
         };
 
         logger.info('hello world', data);
@@ -235,8 +233,8 @@ describe('logger', () => {
       it('provinceState -> province', () => {
         const data = {
           order: {
-            provinceState: 'NS'
-          }
+            provinceState: 'NS',
+          },
         };
 
         logger.info('hello world', data);
@@ -247,8 +245,8 @@ describe('logger', () => {
       it('referenceId -> orderReferenceId', () => {
         const data = {
           order: {
-            referenceId: 'abc'
-          }
+            referenceId: 'abc',
+          },
         };
 
         logger.info('hello world', data);
@@ -261,8 +259,8 @@ describe('logger', () => {
       it('serialNumber -> deviceSerialNumber', () => {
         const data = {
           device: {
-            serialNumber: '123456789'
-          }
+            serialNumber: '123456789',
+          },
         };
 
         logger.info('hello world', data);
@@ -275,8 +273,8 @@ describe('logger', () => {
       it('id -> eventNumber', () => {
         const data = {
           event: {
-            id: 1
-          }
+            id: 1,
+          },
         };
 
         logger.info('hello world', data);
@@ -287,28 +285,28 @@ describe('logger', () => {
       it('id -> eventId', () => {
         const data = {
           event: {
-            id: 'b21a61f6-6fff-4991-a03a-d12d04936ab5'
-          }
+            id: 'b21a61f6-6fff-4991-a03a-d12d04936ab5',
+          },
         };
 
         logger.info('hello world', data);
 
         expect(process.stdout.write).toHaveBeenCalledWith(
-          expect.stringContaining('"eventId":"b21a61f6-6fff-4991-a03a-d12d04936ab5"')
+          expect.stringContaining('"eventId":"b21a61f6-6fff-4991-a03a-d12d04936ab5"'),
         );
       });
 
       it('uuid -> eventId', () => {
         const data = {
           event: {
-            uuid: 'b21a61f6-6fff-4991-a03a-d12d04936ab5'
-          }
+            uuid: 'b21a61f6-6fff-4991-a03a-d12d04936ab5',
+          },
         };
 
         logger.info('hello world', data);
 
         expect(process.stdout.write).toHaveBeenCalledWith(
-          expect.stringContaining('"eventId":"b21a61f6-6fff-4991-a03a-d12d04936ab5"')
+          expect.stringContaining('"eventId":"b21a61f6-6fff-4991-a03a-d12d04936ab5"'),
         );
       });
     });
