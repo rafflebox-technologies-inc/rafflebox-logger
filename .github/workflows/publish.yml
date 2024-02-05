@@ -52,8 +52,7 @@ jobs:
           cp README.md build
           cp .npmrc build
           cd build
-          npm version --no-git-tag-version prerelease
-          npm publish --access public
+          npm publish
 
       - name: Slack
         run: |
